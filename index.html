@@ -8,6 +8,14 @@
 
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Special+Gothic+Expanded+One&display=swap" rel="stylesheet">
+  
+  <!-- Preload critical images for better performance -->
+  <link rel="preload" as="image" href="images/foto1.jpg">
+  <link rel="preload" as="image" href="images/foto2.jpg">
+  <link rel="preload" as="image" href="images/foto3.jpg">
+  <link rel="preload" as="image" href="images/foto4.jpg">
+  <link rel="preload" as="image" href="images/foto5.jpg">
+  <link rel="preload" as="image" href="images/foto6.jpg">
 
   <style>
     body {
@@ -62,6 +70,16 @@
       font-size: 1.8rem;
     }
 
+    header h1 a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    header h1 a:hover {
+      color: #ccc;
+    }
+
     /* Section preview styles */
     .section-previews {
       display: grid;
@@ -111,6 +129,9 @@
       background-position: center;
       opacity: 0;
       transition: opacity 2s ease-in-out;
+      /* Optimize for performance */
+      will-change: opacity, transform;
+      transform: translateZ(0);
     }
 
     .photo-preview-background.active {
@@ -128,6 +149,9 @@
       background-position: center;
       opacity: 0;
       transition: opacity 2s ease-in-out;
+      /* Optimize for performance */
+      will-change: opacity, transform;
+      transform: translateZ(0);
     }
 
     .video-preview-background.active {
@@ -214,6 +238,9 @@
       height: 100%;
       object-fit: cover;
       border-radius: 15px;
+      /* Optimize for performance */
+      will-change: transform;
+      transform: translateZ(0);
     }
 
     .video-wrapper {
@@ -319,6 +346,9 @@
       max-height: 70vh;
       object-fit: contain;
       border-radius: 10px;
+      /* Optimize for performance */
+      will-change: transform;
+      transform: translateZ(0);
     }
 
     .photo-nav-arrow {
@@ -406,6 +436,23 @@
       height: 100%;
       object-fit: cover;
       border-radius: 3px;
+      /* Optimize for performance */
+      will-change: transform;
+      transform: translateZ(0);
+      transition: opacity 0.3s ease;
+    }
+
+    .photo-thumbnail img.loading {
+      opacity: 0.5;
+    }
+
+    .photo-thumbnail img.error {
+      background-color: #444;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
     }
 
     .photo-info {
@@ -715,21 +762,21 @@
       <a href="index.html">Portfolio</a>
       <a href="contact.html">Kontakt</a>
     </nav>
-    <h1>Pešek</h1>
+    <h1><a href="index.html">Pešek</a></h1>
   </header>
 
   <div class="container">
     <!-- Section previews (main page) -->
     <div id="section-previews">
       <div class="section-previews">
-        <div class="section-preview" onclick="showGallery('video')" id="video-section">
+        <div class="section-preview" onclick="window.location.href='video.html'" id="video-section">
           <div class="video-preview-background" id="video-bg-1"></div>
           <div class="video-preview-background" id="video-bg-2"></div>
           <div class="preview-overlay">
             <h3>VIDEO</h3>
           </div>
         </div>
-        <div class="section-preview" onclick="showGallery('photo')" id="photo-section">
+        <div class="section-preview" onclick="window.location.href='foto.html'" id="photo-section">
           <div class="photo-preview-background" id="photo-bg-1"></div>
           <div class="photo-preview-background" id="photo-bg-2"></div>
           <div class="preview-overlay">
@@ -737,224 +784,11 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Video Gallery (hidden by default) -->
-    <div class="gallery-container" id="video-gallery">
-      <button class="back-button" onclick="showPreviews()">← Zpět na portfolio</button>
-      <h2>Videa</h2>
-      <div class="video-grid">
-        <div class="video-item">
-          <div class="video-wrapper" data-video="https://www.youtube.com/embed/jPdJ4hhsbLk?autoplay=1">
-            <iframe src="https://www.youtube.com/embed/jPdJ4hhsbLk" allowfullscreen></iframe>
-          </div>
-          <p class="project-title">Rybova mše vánoční - střih, kamera</p>
-        </div>
-        <div class="video-item">
-          <div class="video-wrapper" data-video="https://www.youtube.com/embed/tA7nG6Xgm3Q?autoplay=1">
-            <iframe src="https://www.youtube.com/embed/tA7nG6Xgm3Q" allowfullscreen></iframe>
-          </div>
-          <p class="project-title">ČAS - střih, kamera</p>
-        </div>
-        <div class="video-item">
-          <div class="video-wrapper" data-video="https://www.youtube.com/embed/z3anqmVt1dk?autoplay=1">
-            <iframe src="https://www.youtube.com/embed/z3anqmVt1dk" allowfullscreen></iframe>
-          </div>
-          <p class="project-title">Pozvánka na Scholu Pragensis 2024 - střih, kamera</p>
-        </div>
-        <div class="video-item">
-          <div class="video-wrapper" data-video="https://www.youtube.com/embed/vZSJj9pkaps?autoplay=1">
-            <iframe src="https://www.youtube.com/embed/vZSJj9pkaps" allowfullscreen></iframe>
-          </div>
-          <p class="project-title">INTR LIFE - scénář, režie, střih, kamera</p>
-        </div>
-        <div class="video-item">
-          <div class="video-wrapper" data-video="https://www.youtube.com/embed/rwPX3azojHw?autoplay=1">
-            <iframe src="https://www.youtube.com/embed/rwPX3azojHw" allowfullscreen></iframe>
-          </div>
-          <p class="project-title">Maturitní ples SPŠST Panská - střih, kamera</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Photo Gallery (hidden by default) -->
-    <div class="gallery-container" id="photo-gallery">
-      <button class="back-button" onclick="showPreviews()">← Zpět na portfolio</button>
-      <h2>Fotografie</h2>
-      <div class="photo-grid">
-        <div class="photo-item">
-          <div class="photo-wrapper" data-photo="images/foto1.jpg">
-            <img src="images/foto1.jpg" alt="Fotografie 1">
-          </div>
-          <p class="project-title">Festival světla</p>
-        </div>
-        <div class="photo-item">
-          <div class="photo-wrapper" data-photo="images/foto2.jpg">
-            <img src="images/foto2.jpg" alt="Fotografie 2">
-          </div>
-          <p class="project-title">Produktová fotografie</p>
-        </div>
-        <div class="photo-item">
-          <div class="photo-wrapper" data-photo="images/foto3.jpg">
-            <img src="images/foto3.jpg" alt="Fotografie 3">
-          </div>
-          <p class="project-title">U20 Sparta x Pardubice</p>
-        </div>
-        <div class="photo-item">
-          <div class="photo-wrapper" data-photo="images/foto4.jpg">
-            <img src="images/foto4.jpg" alt="Fotografie 4">
-          </div>
-          <p class="project-title">Architektura</p>
-        </div>
-        <div class="photo-item">
-          <div class="photo-wrapper" data-photo="images/foto5.jpg">
-            <img src="images/foto5.jpg" alt="Fotografie 5">
-          </div>
-          <p class="project-title">Krajina</p>
-        </div>
-        <div class="photo-item">
-          <div class="photo-wrapper" data-photo="images/foto6.jpg">
-            <img src="images/foto6.jpg" alt="Fotografie 6">
-          </div>
-          <p class="project-title">Volná tvorba</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal for expanded video -->
-  <div class="modal" id="videoModal">
-    <div class="modal-content">
-      <button class="close-modal" id="closeModal" aria-label="Zavřít">&times;</button>
-      <iframe id="modalIframe" src="" allowfullscreen></iframe>
-    </div>
-  </div>
-
-  <!-- Modal for expanded photo -->
-  <div class="modal" id="photoModal">
-    <div class="photo-modal-content">
-      <button class="close-modal" id="closePhotoModal" aria-label="Zavřít">&times;</button>
-      
-      <div class="main-photo-container">
-        <button class="photo-nav-arrow prev" id="prevArrow">‹</button>
-        <img id="mainPhoto" src="" alt="">
-        <button class="photo-nav-arrow next" id="nextArrow">›</button>
-      </div>
-      
-      <div class="photo-info">
-        <p id="photoCaption">Fotografie</p>
-        <p id="photoCounter">1 / 6</p>
-      </div>
-      
-      <div class="photo-thumbnails" id="photoThumbnails">
-        <!-- Thumbnails will be loaded here -->
-      </div>
-    </div>
   </div>
 
   <footer>
     <p>&copy; Martin Pešek</p>
-  </footer>
-
-  <script>
-    // Photo mini-galleries data - každá hlavní fotka má svou kolekci
-    const photoCollections = {
-      'foto1': {
-        title: 'BLIK x BLIK',
-        photos: [
-          { src: "images/foto1.jpg", caption: "BLIK x BLIK 2025" },
-          { src: "images/BLIKBLIK/BLIKBLIK1.jpg", caption: "Flux" },
-          { src: "images/BLIKBLIK/BLIKBLIK2.jpg", caption: "Hejno" },
-          { src: "images/BLIKBLIK/BLIKBLIK3.jpg", caption: "Heart Beat" },
-          { src: "images/BLIKBLIK/BLIKBLIK4.jpg", caption: "Škola videomappingu" },
-          { src: "images/BLIKBLIK/BLIKBLIK5.jpg", caption: "Okno do školy" },
-          { src: "images/BLIKBLIK/BLIKBLIK6.jpg", caption: "Fragmenty" },
-          { src: "images/BLIKBLIK/BLIKBLIK7.jpg", caption: "Pátý element" },
-          { src: "images/BLIKBLIK/BLIKBLIK8.jpg", caption: "Mega Viki" },
-          { src: "images/BLIKBLIK/BLIKBLIK9.jpg", caption: "Light Party" },
-          { src: "images/BLIKBLIK/BLIKBLIK10.jpg", caption: "Prorůstání" },
-          { src: "images/BLIKBLIK/BLIKBLIK11.jpg", caption: "Secret Garden" },
-          { src: "images/BLIKBLIK/BLIKBLIK12.jpg", caption: "Mysterium" },
-          { src: "images/BLIKBLIK/BLIKBLIK13.jpg", caption: "Enérgeia" },
-          { src: "images/BLIKBLIK/BLIKBLIK14.jpg", caption: "Nexus Dream" },
-          { src: "images/BLIKBLIK/BLIKBLIK15.jpg", caption: "Synthetic Dance" },
-          { src: "images/BLIKBLIK/BLIKBLIK16.jpg", caption: "Koncepty nulové gravitace" },
-          { src: "images/BLIKBLIK/BLIKBLIK17.jpg", caption: "Kaleidoskop" },
-          { src: "images/BLIKBLIK/BLIKBLIK18.jpg", caption: "Pavučina" }
-        ]
-      },
-      'foto2': {
-        title: 'Ferrari',
-        photos: [
-          { src: "images/foto2.jpg", caption: "LEGO Ferrari Daytona SP3" },
-          { src: "images/ferrari/ferrari1.jpg", caption: "LEGO Ferrari Daytona SP3" },
-          { src: "images/ferrari/ferrari2.jpg", caption: "LEGO Ferrari Daytona SP3" },
-          { src: "images/ferrari/ferrari3.jpg", caption: "LEGO Ferrari Daytona SP3" },
-          { src: "images/ferrari/ferrari4.jpg", caption: "LEGO Ferrari Daytona SP3" },
-          { src: "images/ferrari/ferrari5.jpg", caption: "LEGO Ferrari Daytona SP3" },
-        ]
-      },
-      'foto3': {
-        title: 'U20 Sparta x Pardubice',
-        photos: [
-          { src: "images/foto3.jpg", caption: "U20 Sparta x Pardubice" },
-          { src: "images/Hokej/hokej1.jpg", caption: "U20 Sparta x Pardubice" },
-          { src: "images/Hokej/hokej2.jpg", caption: "U20 Sparta x Pardubice" },
-          { src: "images/Hokej/hokej3.jpg", caption: "U20 Sparta x Pardubice" },
-          { src: "images/Hokej/hokej4.jpg", caption: "U20 Sparta x Pardubice" },
-          { src: "images/Hokej/hokej5.jpg", caption: "U20 Sparta x Pardubice" },
-          { src: "images/Hokej/hokej6.jpg", caption: "U20 Sparta x Pardubice" },
-          { src: "images/Hokej/hokej7.jpg", caption: "U20 Sparta x Pardubice" },
-          { src: "images/Hokej/hokej8.jpg", caption: "U20 Sparta x Pardubice" },
-          { src: "images/Hokej/hokej9.jpg", caption: "U20 Sparta x Pardubice" },
-          { src: "images/Hokej/hokej10.jpg", caption: "U20 Sparta x Pardubice" },
-          { src: "images/Hokej/hokej11.jpg", caption: "U20 Sparta x Pardubice" },
-          { src: "images/Hokej/hokej12.jpg", caption: "U20 Sparta x Pardubice" },
-          { src: "images/Hokej/hokej13.jpg", caption: "U20 Sparta x Pardubice" },
-          { src: "images/Hokej/hokej14.jpg", caption: "U20 Sparta x Pardubice" }
-        ]
-      },
-      'foto4': {
-        title: 'Architektura',
-        photos: [
-          { src: "images/foto4.jpg", caption: "Karlštejn" },
-          { src: "images/architektura/architektura1.jpg", caption: "Kostel sv. Mikuláše" },
-          { src: "images/architektura/architektura2.jpg", caption: "Věž" },
-          { src: "images/architektura/architektura3.jpg", caption: "Žižkovský vysílač" },
-          { src: "images/architektura/architektura4.jpg", caption: "Schönbrunn" },
-          { src: "images/architektura/architektura5.jpg", caption: "Dům u nádraží" }
-        ]
-      },
-      'foto5': {
-        title: 'Krajina',
-        photos: [
-          { src: "images/foto5.jpg", caption: "Hanger a Seekarkopf" },
-          { src: "images/krajina/krajina1.jpg", caption: "Zwölfer" },
-          { src: "images/krajina/krajina2.jpg", caption: "Západ slunce z hor" },
-          { src: "images/krajina/krajina3.jpg", caption: "Lobezský park" },
-          { src: "images/krajina/krajina5.jpg", caption: "Krkonošsko" },
-          { src: "images/krajina/krajina6.jpg", caption: "Krkonošsko" }
-        ]
-      },
-      'foto6': {
-        title: 'Volná tvorba',
-        photos: [
-          { src: "images/foto6.jpg", caption: "Tramvaj" },
-          { src: "images/volnatvorba/volnatvorba1.jpg", caption: "Hlavní nádraží" },
-          { src: "images/volnatvorba/volnatvorba2.jpg", caption: "Maják" },
-          { src: "images/volnatvorba/volnatvorba4.jpg", caption: "Krimmler Wasserfälle" },
-          { src: "images/volnatvorba/volnatvorba5.jpg", caption: "Pražské květiny" },
-          { src: "images/volnatvorba/volnatvorba6.jpg", caption: "Střížkov" },
-          { src: "images/volnatvorba/volnatvorba7.jpg", caption: "Rolnické náměstí" },
-          { src: "images/volnatvorba/volnatvorba8.jpg", caption: "DaVinci Resolve" }
-        
-        ]
-      }
-    };
-
-    let currentPhotoIndex = 0;
-    let currentCollection = [];
-
+  </footer>  <script>
     // Photo background slideshow
     let photoSlideshowInterval;
     let currentPhotoBackground = 1;
@@ -968,34 +802,61 @@
       'https://img.youtube.com/vi/tA7nG6Xgm3Q/maxresdefault.jpg',
       'https://img.youtube.com/vi/vZSJj9pkaps/maxresdefault.jpg',
       'https://img.youtube.com/vi/rwPX3azojHw/maxresdefault.jpg'
-      // Vynecháváme z3anqmVt1dk - pozvánka na Scholu nemá kvalitní náhledový obrázek
     ];
 
-    // Collect all photos from all collections for photo background
+    // Collect all photos from photo collections for background slideshow
+    const photoCollectionsData = {
+      'BLIKBLIK': [
+        "images/BLIKBLIK/BLIKBLIK1.jpg", "images/BLIKBLIK/BLIKBLIK2.jpg", "images/BLIKBLIK/BLIKBLIK3.jpg",
+        "images/BLIKBLIK/BLIKBLIK4.jpg", "images/BLIKBLIK/BLIKBLIK5.jpg", "images/BLIKBLIK/BLIKBLIK6.jpg",
+        "images/BLIKBLIK/BLIKBLIK7.jpg", "images/BLIKBLIK/BLIKBLIK8.jpg", "images/BLIKBLIK/BLIKBLIK9.jpg",
+        "images/BLIKBLIK/BLIKBLIK10.jpg", "images/BLIKBLIK/BLIKBLIK11.jpg", "images/BLIKBLIK/BLIKBLIK12.jpg",
+        "images/BLIKBLIK/BLIKBLIK13.jpg", "images/BLIKBLIK/BLIKBLIK14.jpg", "images/BLIKBLIK/BLIKBLIK15.jpg",
+        "images/BLIKBLIK/BLIKBLIK16.jpg", "images/BLIKBLIK/BLIKBLIK17.jpg", "images/BLIKBLIK/BLIKBLIK18.jpg"
+      ],
+      'Ferrari': [
+        "images/Ferrari/ferrari1.jpg", "images/Ferrari/ferrari2.jpg", "images/Ferrari/ferrari3.jpg",
+        "images/Ferrari/ferrari4.jpg", "images/Ferrari/ferrari5.jpg"
+      ],
+      'Hokej': [
+        "images/Hokej/hokej1.jpg", "images/Hokej/hokej2.jpg", "images/Hokej/hokej3.jpg",
+        "images/Hokej/hokej4.jpg", "images/Hokej/hokej5.jpg", "images/Hokej/hokej6.jpg",
+        "images/Hokej/hokej7.jpg", "images/Hokej/hokej8.jpg", "images/Hokej/hokej9.jpg",
+        "images/Hokej/hokej10.jpg", "images/Hokej/hokej11.jpg", "images/Hokej/hokej12.jpg",
+        "images/Hokej/hokej13.jpg", "images/Hokej/hokej14.jpg"
+      ],
+      'Architektura': [
+        "images/architektura/architektura1.jpg", "images/architektura/architektura2.jpg",
+        "images/architektura/architektura3.jpg", "images/architektura/architektura4.jpg",
+        "images/architektura/architektura5.jpg"
+      ],
+      'Krajina': [
+        "images/krajina/krajina1.jpg", "images/krajina/krajina2.jpg", "images/krajina/krajina3.jpg",
+        "images/krajina/krajina5.jpg", "images/krajina/krajina6.jpg"
+      ],
+      'Volná tvorba': [
+        "images/volnatvorba/volnatvorba1.jpg", "images/volnatvorba/volnatvorba2.jpg",
+        "images/volnatvorba/volnatvorba4.jpg", "images/volnatvorba/volnatvorba5.jpg",
+        "images/volnatvorba/volnatvorba6.jpg", "images/volnatvorba/volnatvorba7.jpg",
+        "images/volnatvorba/volnatvorba8.jpg"
+      ]
+    };
+
+    // Collect all photos for background slideshow
     function initPhotoSlideshow() {
-      // Collect all photos from all collections
-      Object.values(photoCollections).forEach(collection => {
-        collection.photos.forEach(photo => {
-          if (!photo.src.includes('foto1.jpg') && !photo.src.includes('foto2.jpg') && 
-              !photo.src.includes('foto3.jpg') && !photo.src.includes('foto4.jpg') && 
-              !photo.src.includes('foto5.jpg') && !photo.src.includes('foto6.jpg')) {
-            photoBackgroundPhotos.push(photo.src);
-          }
-        });
+      Object.values(photoCollectionsData).forEach(collection => {
+        photoBackgroundPhotos.push(...collection);
       });
 
       // Set initial background
       if (photoBackgroundPhotos.length > 0) {
         const bg1 = document.getElementById('photo-bg-1');
-        const bg2 = document.getElementById('photo-bg-2');
-        
-        // Set first random image
         const randomIndex = Math.floor(Math.random() * photoBackgroundPhotos.length);
         bg1.style.backgroundImage = `url('${photoBackgroundPhotos[randomIndex]}')`;
         bg1.classList.add('active');
         
         // Start slideshow
-        photoSlideshowInterval = setInterval(switchPhotoBackground, 4000); // Change every 4 seconds
+        photoSlideshowInterval = setInterval(switchPhotoBackground, 4000);
       }
     }
 
@@ -1003,15 +864,12 @@
     function initVideoSlideshow() {
       if (videoBackgroundThumbnails.length > 0) {
         const bg1 = document.getElementById('video-bg-1');
-        const bg2 = document.getElementById('video-bg-2');
-        
-        // Set first random thumbnail
         const randomIndex = Math.floor(Math.random() * videoBackgroundThumbnails.length);
         bg1.style.backgroundImage = `url('${videoBackgroundThumbnails[randomIndex]}')`;
         bg1.classList.add('active');
         
         // Start slideshow
-        videoSlideshowInterval = setInterval(switchVideoBackground, 3500); // Change every 3.5 seconds
+        videoSlideshowInterval = setInterval(switchVideoBackground, 3500);
       }
     }
 
@@ -1024,13 +882,11 @@
       const newImage = photoBackgroundPhotos[randomIndex];
       
       if (currentPhotoBackground === 1) {
-        // Switch to bg2
         bg2.style.backgroundImage = `url('${newImage}')`;
         bg2.classList.add('active');
         bg1.classList.remove('active');
         currentPhotoBackground = 2;
       } else {
-        // Switch to bg1
         bg1.style.backgroundImage = `url('${newImage}')`;
         bg1.classList.add('active');
         bg2.classList.remove('active');
@@ -1047,13 +903,11 @@
       const newThumbnail = videoBackgroundThumbnails[randomIndex];
       
       if (currentVideoBackground === 1) {
-        // Switch to bg2
         bg2.style.backgroundImage = `url('${newThumbnail}')`;
         bg2.classList.add('active');
         bg1.classList.remove('active');
         currentVideoBackground = 2;
       } else {
-        // Switch to bg1
         bg1.style.backgroundImage = `url('${newThumbnail}')`;
         bg1.classList.add('active');
         bg2.classList.remove('active');
@@ -1061,200 +915,7 @@
       }
     }
 
-    // Navigation functions
-    function showGallery(type) {
-      document.getElementById('section-previews').style.display = 'none';
-      
-      if (type === 'video') {
-        document.getElementById('video-gallery').classList.add('active');
-        // Stop both slideshows when entering video gallery
-        if (photoSlideshowInterval) {
-          clearInterval(photoSlideshowInterval);
-        }
-        if (videoSlideshowInterval) {
-          clearInterval(videoSlideshowInterval);
-        }
-      } else if (type === 'photo') {
-        document.getElementById('photo-gallery').classList.add('active');
-        // Stop both slideshows when entering photo gallery
-        if (photoSlideshowInterval) {
-          clearInterval(photoSlideshowInterval);
-        }
-        if (videoSlideshowInterval) {
-          clearInterval(videoSlideshowInterval);
-        }
-      }
-    }
-
-    function showPreviews() {
-      document.getElementById('video-gallery').classList.remove('active');
-      document.getElementById('photo-gallery').classList.remove('active');
-      document.getElementById('section-previews').style.display = 'block';
-      
-      // Restart both slideshows when returning to main page
-      if (photoBackgroundPhotos.length > 0) {
-        photoSlideshowInterval = setInterval(switchPhotoBackground, 4000);
-      }
-      if (videoBackgroundThumbnails.length > 0) {
-        videoSlideshowInterval = setInterval(switchVideoBackground, 3500);
-      }
-    }
-
-    // Open video modal on video click
-    document.querySelectorAll('.video-wrapper').forEach(wrapper => {
-      wrapper.addEventListener('click', function() {
-        const videoUrl = this.getAttribute('data-video');
-        const modal = document.getElementById('videoModal');
-        const iframe = document.getElementById('modalIframe');
-        iframe.src = videoUrl;
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      });
-    });
-
-    // Open photo modal on photo click - updated for mini-galleries
-    document.querySelectorAll('.photo-wrapper').forEach((wrapper, index) => {
-      wrapper.addEventListener('click', function() {
-        const photoSrc = this.getAttribute('data-photo');
-        
-        // Určit jakou kolekci otevřít na základě názvu souboru
-        let collectionKey = '';
-        if (photoSrc.includes('foto1.jpg')) collectionKey = 'foto1';
-        else if (photoSrc.includes('foto2.jpg')) collectionKey = 'foto2';
-        else if (photoSrc.includes('foto3.jpg')) collectionKey = 'foto3';
-        else if (photoSrc.includes('foto4.jpg')) collectionKey = 'foto4';
-        else if (photoSrc.includes('foto5.jpg')) collectionKey = 'foto5';
-        else if (photoSrc.includes('foto6.jpg')) collectionKey = 'foto6';
-        
-        if (collectionKey && photoCollections[collectionKey]) {
-          currentCollection = photoCollections[collectionKey].photos;
-          openPhotoModal(0); // Vždy začínáme od hlavní fotky (index 0)
-        }
-      });
-    });
-
-    function openPhotoModal(startIndex) {
-      currentPhotoIndex = startIndex;
-      
-      // Create thumbnails from current collection
-      const thumbnailsContainer = document.getElementById('photoThumbnails');
-      thumbnailsContainer.innerHTML = '';
-      
-      currentCollection.forEach((photo, index) => {
-        const thumbnail = document.createElement('div');
-        thumbnail.className = `photo-thumbnail ${index === startIndex ? 'active' : ''}`;
-        thumbnail.innerHTML = `<img src="${photo.src}" alt="${photo.caption}">`;
-        
-        thumbnail.addEventListener('click', () => {
-          showPhoto(index);
-        });
-        
-        thumbnailsContainer.appendChild(thumbnail);
-      });
-
-      showPhoto(startIndex);
-      
-      document.getElementById('photoModal').classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function showPhoto(index) {
-      currentPhotoIndex = index;
-      const photo = currentCollection[index];
-      
-      // Update main photo
-      document.getElementById('mainPhoto').src = photo.src;
-      document.getElementById('photoCaption').textContent = photo.caption;
-      document.getElementById('photoCounter').textContent = `${index + 1} / ${currentCollection.length}`;
-      
-      // Update navigation buttons
-      document.getElementById('prevArrow').disabled = index === 0;
-      document.getElementById('nextArrow').disabled = index === currentCollection.length - 1;
-      
-      // Update active thumbnail
-      document.querySelectorAll('.photo-thumbnail').forEach((thumb, i) => {
-        thumb.classList.toggle('active', i === index);
-      });
-      
-      // Scroll active thumbnail into view
-      const activeThumbnail = document.querySelector('.photo-thumbnail.active');
-      if (activeThumbnail) {
-        activeThumbnail.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'nearest', 
-          inline: 'center' 
-        });
-      }
-    }
-
-    function showPrevPhoto() {
-      if (currentPhotoIndex > 0) {
-        showPhoto(currentPhotoIndex - 1);
-      }
-    }
-
-    function showNextPhoto() {
-      if (currentPhotoIndex < currentCollection.length - 1) {
-        showPhoto(currentPhotoIndex + 1);
-      }
-    }
-
-    // Event listeners for photo navigation
-    document.getElementById('prevArrow').addEventListener('click', showPrevPhoto);
-    document.getElementById('nextArrow').addEventListener('click', showNextPhoto);
-
-    // Keyboard navigation
-    document.addEventListener('keydown', function(e) {
-      if (document.getElementById('photoModal').classList.contains('active')) {
-        if (e.key === 'ArrowLeft') {
-          e.preventDefault();
-          showPrevPhoto();
-        } else if (e.key === 'ArrowRight') {
-          e.preventDefault();
-          showNextPhoto();
-        } else if (e.key === 'Escape') {
-          closePhotoModal();
-        }
-      } else if (e.key === 'Escape') {
-        closeVideoModal();
-      }
-    });
-
-    // Close video modal
-    document.getElementById('closeModal').addEventListener('click', function() {
-      closeVideoModal();
-    });
-
-    // Close photo modal
-    document.getElementById('closePhotoModal').addEventListener('click', function() {
-      closePhotoModal();
-    });
-
-    // Close video modal on background click
-    document.getElementById('videoModal').addEventListener('click', function(e) {
-      if (e.target === this) closeVideoModal();
-    });
-
-    // Close photo modal on background click
-    document.getElementById('photoModal').addEventListener('click', function(e) {
-      if (e.target === this) closePhotoModal();
-    });
-
-    function closeVideoModal() {
-      const modal = document.getElementById('videoModal');
-      const iframe = document.getElementById('modalIframe');
-      modal.classList.remove('active');
-      iframe.src = '';
-      document.body.style.overflow = '';
-    }
-
-    function closePhotoModal() {
-      const modal = document.getElementById('photoModal');
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    // Initialize photo slideshow when page loads
+    // Initialize slideshows when page loads
     document.addEventListener('DOMContentLoaded', function() {
       initPhotoSlideshow();
       initVideoSlideshow();
